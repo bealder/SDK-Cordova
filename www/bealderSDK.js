@@ -72,12 +72,14 @@ function startMonitoringAndRanging()
 							
 							cordova.plugins.notification.local.on("click", function (notification) {
 								localStorage.setItem("offerurl", newurl);
-								window.location = "offer.html";
+								//window.location = "offer.html";
+								cordova.InAppBrowser.open(newurl, '_blank', 'location=no');
 								//mAppInBackground = true;
 							});
 					} else {
 						localStorage.setItem("offerurl", newurl);
-						window.location = "offer.html";
+						//window.location = "offer.html";
+						cordova.InAppBrowser.open(newurl, '_blank', 'location=no');
 					//mAppInBackground = true;
 					}
 				}
