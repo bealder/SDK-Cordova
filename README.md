@@ -4,26 +4,19 @@
 
  * Get your **APP_ID** and **APP_KEY** from [app.bealder.com](https://app.bealder.com)
 
-## Import SDK
+## Add the SDK
 
-In Android Studio :
-
- * File > New > New module... > Import .Jar or .Aar package
-
- ![new module](images/new-module.png)
-
- * You can change the name of Bealder SDK :
-
- ![dir sdk](images/dir-sdk.png)
-
- * Finally if you have imported correctly :
-
- ![project tree](images/project-tree.png)
-
- * **Note**: The module should already be added in `settings.gradle` by Android Studio during the import process.
+Put the sdk in the same folder as the project folder and then go in the project folder to type this :
 
  ```
- include ':app', ':BealderSdk'
+ cordova plugin add ../SDK-Cordova
+ ```
+In the same folder, add the three following plugins : 
+
+ ```
+ cordova plugin add cordova-plugin-http
+ cordova plugin add https://github.com/petermetz/cordova-plugin-ibeacon
+ cordova plugin add https://github.com/katzer/cordova-plugin-local-notifications
  ```
 
  * The `build.gradle` settings app :
