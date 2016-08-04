@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="bealder-sdk" version="1.0.0">
+    <name>BealderSdk</name>
+    <description>Bealder Sdk Beacon</description>
+    <license>Apache 2.0</license>
+
+	<asset src="www/offer.html" target="offer.html" />
+	
+    <js-module src="www/bealderSDK.js" name="bealderSDK">
+        <clobbers target="bealderSDK" />
+    </js-module>
+</plugin>
