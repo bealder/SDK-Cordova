@@ -85,3 +85,5 @@ var app = {
 
 app.initialize();
 ```
+
+Run your application !
