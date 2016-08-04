@@ -17,6 +17,7 @@ In the same folder, add the three following plugins :
  cordova plugin add cordova-plugin-http
  cordova plugin add https://github.com/petermetz/cordova-plugin-ibeacon
  cordova plugin add https://github.com/katzer/cordova-plugin-local-notifications
+ cordova plugin add cordova-plugin-inappbrowser
  ```
 
 In your application you should have a onDeviceReady function, put this line inside :
