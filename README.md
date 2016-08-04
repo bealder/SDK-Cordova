@@ -21,172 +21,67 @@ In the same folder, add the three following plugins :
 
 In your application you should have a onDeviceReady function, put this line inside :
 
-```
-bealderSDK.run("API_ID", "API_KEY"); //don't forget to replace with yours
-```
+ ```
+ bealderSDK.run("API_ID", "API_KEY"); //don't forget to replace with yours
+ ```
 
+Where you define your onDeviceReady, two new events 
 
-```XML
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-```
+ ```
+ document.addEventListener('pause', this.onAppToBackground, false);
+ document.addEventListener('resume', this.onAppToForeground, false);
+ ```
+And :
 
-####	Under application
-
-```XML
-<!-- API_KEY Bealder -->
-<meta-data
-    android:name="com.bealder.sdk.API_ID"
-    android:value="APP_ID" />
-<meta-data
-    android:name="com.bealder.sdk.API_KEY"
-    android:value="APP_KEY" />
-    
-<activity android:name="com.bealder.sdk.AdvertActivity"></activity>
-
-<receiver
-    android:name="com.bealder.sdk.GeofenceReceiver"
-    android:exported="false">
-    <intent-filter>
-        <action android:name="com.bealder.sdk.ACTION_RECEIVE_GEOFENCE" />
-    </intent-filter>
-</receiver>
-
-<receiver android:name="com.bealder.sdk.BootReceiver">
-    <intent-filter>
-        <action android:name="android.intent.action.BOOT_COMPLETED" />
-    </intent-filter>
-</receiver>
-
-```
-
-####	Class Application
-
- * Create class application if it doesn't exist and add declaration to your `manifest.xml`:
-
-```XML
-	<application
-        android:name=".ApplicationClass"
-```
-
-## Class Application, you need :
-
- * To implement BootstrapNotifier
- * Set BealderSDK
-
-```Java
-import android.app.Application;
-import android.graphics.Color;
-import com.bealder.sdk.manager.BealderParameters;
-import com.bealder.sdk.manager.BealderSDK;
-import org.altbeacon.beacon.Region;
-import org.altbeacon.beacon.startup.BootstrapNotifier;
-import org.altbeacon.beacon.startup.RegionBootstrap;
-
-public class ApplicationClass extends Application implements BootstrapNotifier {
-
-    private RegionBootstrap regionBootstrap;
-    private BealderSDK bealderSDK;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        // Initialise Bealder - require -
-        bealderSDK = new BealderSDK(this);
-
-        // Show debug in logcat
-        //BealderParameters.setDebugMod();
-
-        // Set Icon - require -
-        // It will set an icon for the push notification
-        BealderParameters.setNotifIcon(R.drawable.ic_launcher);
-        BealderParameters.setNotifIconL(R.drawable.icon_notif_l);
-        BealderParameters.setNotifColorL(Color.parseColor("#357f77"));
-
-        // If Token Push, send it, any time
-        //BealderParameters.setTokenPush(TOKEN_PUSH);
-
-        // Set region to bootstrap - require -
-        regionBootstrap = new RegionBootstrap(this, bealderSDK.getRegion());
-
-        // - require -
-        bealderSDK.run(this);
-
-    }
-
-    @Override
-    public void didEnterRegion(Region region) {
-        bealderSDK.enterRegion(region);
-    }
-
-    @Override
-    public void didExitRegion(Region region) {
-        bealderSDK.exitRegion(region);
-    }
-
-    @Override
-    public void didDetermineStateForRegion(int state, Region region) {
-        // Do nothing
-    }
-}
-```
-
-##   Principal Activity
-
- >	You can start to use the app but if you need more informations some methods need to be overridden:
-
-```Java
-import com.bealder.sdk.manager.BealderParameters;
-
-public class FirstActivity extends Activity {
-
-    private int LOCATION_REQUEST_CODE = 0;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(com.bealder.R.layout.activity_first);
+ ```
+ onAppToBackground: function() {
+ 	bealderSDK.setInBackground(true);
+ }
 	
-        // You need to request the Location Permissions if the Android Version is M or above	
-        if (!canAccessLocation())
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
+ onAppToForeground: function() {
+	bealderSDK.setInBackground(false);
+ }
+ ```
 
-        // If you want to ask BLE activation
-        BealderParameters.askBleActivation(this);
-        // If you want to ask localisation activation
-        BealderParameters.askGPSActivation(this);
+Here is an example of what it looks like in a code :
 
-    }
+```
+var app = {
+    initialize: function() {
+        this.bindEvents();
+    },
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // - require -
-        BealderParameters.onStart();
-    }
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+		document.addEventListener('pause', this.onAppToBackground, false);
+		document.addEventListener('resume', this.onAppToForeground, false);
+    },
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        // - require -
-        BealderParameters.onStop();
+    onDeviceReady: function() {
+        app.receivedEvent('deviceready');
+				
+		bealderSDK.run("moua7", "9de400d31369718b4e827054c1180c5b");
+    },
+	
+	onAppToBackground: function() {
+		bealderSDK.setInBackground(true);
+	},
+	
+	onAppToForeground: function() {
+		bealderSDK.setInBackground(false);
+	},
+	
+    receivedEvent: function(id) {
+        var parentElement = document.getElementById(id);
+        var listeningElement = parentElement.querySelector('.listening');
+        var receivedElement = parentElement.querySelector('.received');
+
+        listeningElement.setAttribute('style', 'display:none;');
+        receivedElement.setAttribute('style', 'display:block;');
+
+        console.log('Received Event: ' + id);
     }
-    
-    private boolean canAccessLocation() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            return(PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION));
-        else
-            return true;
-    }
-}
-    
+};
+
+app.initialize();
 ```
