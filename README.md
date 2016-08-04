@@ -19,23 +19,12 @@ In the same folder, add the three following plugins :
  cordova plugin add https://github.com/katzer/cordova-plugin-local-notifications
  ```
 
- * The `build.gradle` settings app :
+In your application you should have a onDeviceReady function, put this line inside :
 
 ```
-dependencies {
-    ....
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.mcxiaoke.volley:library:1.0.15'
-    compile 'com.android.support:support-v4:23.3.0'
-    compile 'com.google.android.gms:play-services-location:7.8.0'
-    compile 'org.altbeacon:android-beacon-library:2.7'
-    compile project(':BealderSdk')
-}
+bealderSDK.run("API_ID", "API_KEY"); //don't forget to replace with yours
 ```
 
-## Add the following elements to your __`manifest.xml`__
-
-####	Permissions
 
 ```XML
     <uses-permission android:name="android.permission.BLUETOOTH" />
