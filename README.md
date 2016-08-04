@@ -25,7 +25,7 @@ In your application you should have a onDeviceReady function, put this line insi
  bealderSDK.run("API_ID", "API_KEY"); //don't forget to replace with yours
  ```
 
-Where you define your onDeviceReady, two new events 
+Where you define your onDeviceReady, add two new events :
 
  ```
  document.addEventListener('pause', this.onAppToBackground, false);
