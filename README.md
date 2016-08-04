@@ -60,7 +60,7 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
 				
-		bealderSDK.run("moua7", "9de400d31369718b4e827054c1180c5b");
+		bealderSDK.run("API_ID", "API_KEY");
     },
 	
 	onAppToBackground: function() {
