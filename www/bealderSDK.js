@@ -147,6 +147,8 @@ var bealderSDK = {
 		BEALDER_API_ID = api_id;
 		BEALDER_API_KEY = api_key;
 		
+		cordova.plugins.locationManager.requestWhenInUseAuthorization(); 
+		
 		cordovaHTTP.setHeader("x-bealder-id", BEALDER_API_ID);
 		cordovaHTTP.setHeader("x-bealder-key", BEALDER_API_KEY);
 		cordovaHTTP.setHeader("x-bealder-udid", device.uuid);
