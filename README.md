@@ -11,6 +11,15 @@ Put the sdk in the same folder as the project folder and then go in the project 
  ```
  cordova plugin add ../SDK-Cordova
  ```
+ 
+You must have this result :
+
+```
+Plugin "bealder-sdk" already installed on android.
+```
+
+If don't, make sure that folder's name is the same like your command line.
+ 
 In the same folder, add the three following plugins : 
 
  ```
